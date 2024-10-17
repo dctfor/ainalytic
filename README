@@ -1,0 +1,103 @@
+# Python Code Analyzer
+
+A tool for automatically analyzing and documenting Python class methods across a project. This script processes Python files to generate detailed method documentation including parameters, return types, method dependencies, and more.
+
+## Features
+
+- Recursively analyzes Python files in a specified project directory
+- Generates detailed documentation for each method including:
+  - Parameter types and descriptions
+  - Return types
+  - Method dependencies and calls
+  - Docstrings
+  - Library dependencies
+- Supports incremental processing (skips previously analyzed files)
+- Includes logging for tracking progress and errors
+- Uses LM Studio for AI-powered code analysis
+
+## Prerequisites
+
+- Python 3.x
+- OpenAI Python package
+- LM Studio running locally
+- Optional models:
+  - TheBloke/phi-2-GGUF (default)
+  - Other supported models (commented in code):
+    - QuantFactory/Meta-Llama-3-8B-Instruct-GGUF
+    - Qwen/Qwen2-0.5B-Instruct-GGUF
+    - lmstudio-community/Meta-Llama-3-8B-Instruct-GGUF
+    - Try other models as you see fit
+
+## Installation
+
+1. Clone the repository
+2. Install dependencies:
+```bash
+pip install openai
+```
+3. Ensure LM Studio is running locally on port 1234 or set your custom port
+
+## Usage
+
+Run the script with a project directory path as an argument:
+
+```bash
+python code_analyzer_v2.py /path/to/your/project
+```
+
+The script will:
+1. Scan the project directory for Python files
+2. Generate documentation for each file's methods
+3. Save the analysis to `{project_folder_name}.txt`
+4. Skip previously analyzed files in subsequent runs
+
+## Output Format
+
+The generated documentation follows this format for each method:
+
+```
+FILE: /path/to/file.py
+1. `method_name(parameters)`:
+   - Parameters: param1 (type): description, param2 (type): description
+   - Return Type: return_type
+   - Methods used: method1(paramA), method2(paramB,paramC), method3()
+   - Docstring: Brief description of method's purpose
+   - Key libraries or dependencies used
+---------------------------------
+```
+
+## Error Handling
+
+- The script includes comprehensive error logging
+- Failed files are tracked and reported at the end of execution
+- Processing continues even if individual files fail
+
+## Dependencies
+
+- `logging`: For progress and error tracking
+- `openai`: For AI model interaction
+- `os`: For file system operations
+- `sys`: For command line arguments
+- `get_methods`: Custom module for method extraction (not included in source)
+
+## Configuration
+
+- Default model: TheBloke/phi-2-GGUF
+- LM Studio endpoint: http://localhost:1234/v1
+- API key: "lm-studio"
+- Logging level: INFO
+
+## Notes
+
+- The script uses a local LM Studio server instead of OpenAI's API
+- Analysis is incremental - previously processed files are skipped
+- Each file is processed independently to maintain memory efficiency
+- The script maintains a history of analyzed files to avoid reprocessing
+
+## Error Codes
+
+In case of failure, check the log for detailed error messages. Common issues might include:
+- Invalid project path
+- LM Studio server not running
+- File permission issues
+- Memory constraints for large files
